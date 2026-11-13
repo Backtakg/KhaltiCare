@@ -160,6 +160,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 
+
+.demo-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid #f0dadd;border-radius:14px;padding:13px 16px;margin:-7px 0 19px;box-shadow:0 4px 16px rgba(28,30,34,.035)}
+.demo-toolbar strong{display:block;font-size:12px}.demo-toolbar small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.demo-tour-step{display:flex;align-items:center;gap:8px;margin-bottom:10px}.demo-tour-step .status{white-space:nowrap}
+.demo-tour-copy{font-size:12px;line-height:1.75;color:#45474c;margin-top:10px}
+.demo-tour-progress{height:5px;background:#f1e7e8;border-radius:99px;overflow:hidden;margin:13px 0}
+.demo-tour-progress span{display:block;height:100%;background:#dc0019;border-radius:99px;transition:width .2s}
+@media(max-width:600px){.demo-toolbar{align-items:flex-start;flex-direction:column}.demo-toolbar .row{width:100%}.demo-toolbar .row button{flex:1}.demo-toolbar small{max-width:34ch}}
 </style>
 </head>
 <body>
@@ -167,6 +175,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <header class="top"><div class="brand"><div class="brand-copy"><div class="brand-word">khalti<span>Care</span></div><small>Clarity for every step</small></div></div><span class="demo-pill">INDEPENDENT DEMO</span></header>
 <section class="hero"><div class="hero-copy"><div class="eyebrow">A clearer support experience</div><h1>Your support, made clearer.</h1><p>Track your verification, follow support cases, and understand what happens next — all in one place.</p></div><div class="hero-stat"><b>2</b><span>sample requests in progress</span></div></section>
 <nav class="nav" aria-label="Main navigation"><button class="active" data-page="overview">Overview</button><button data-page="kyc">KYC tracker</button><button data-page="support">Support cases</button><button data-page="payments">Payment issues</button><button data-page="feedback">Feedback</button><button data-page="help">Help center</button></nav>
+<section class="demo-toolbar" aria-label="Demo presentation controls"><div><strong>Presentation mode</strong><small>Explore a guided walkthrough using fictional sample data.</small></div><div class="row"><button class="btn" type="button" onclick="startDemoTour()">Start guided demo</button><button class="btn ghost" type="button" onclick="resetDemo()">Reset demo</button></div></section>
 <main>
 <section id="overview" class="page">
 <div class="stats"><div class="stat-card"><span>VERIFICATION</span><b>In review</b><em>Last updated today</em></div><div class="stat-card"><span>OPEN SUPPORT CASES</span><b id="openCount">1</b><em>Track every update</em></div><div class="stat-card"><span>PAYMENT ISSUES</span><b id="paymentCount">1</b><em>Demo records only</em></div></div>
@@ -253,8 +262,16 @@ const seedTickets=[
 {id:"KC-10011",title:"Clarification about verification steps",category:"Account & KYC",status:"Resolved",date:"08 Nov 2026",note:"Sample case: guidance was shared with the user.",updates:["Case created · 08 Nov","Guidance shared · 08 Nov","Resolved · 09 Nov"]}
 ];
 let tickets=JSON.parse(localStorage.getItem("kc_tickets")||"null")||seedTickets;
-let reports=JSON.parse(localStorage.getItem("kc_reports")||"[]");
-let feedback=JSON.parse(localStorage.getItem("kc_feedback")||"[]");
+const seedReports=[
+{id:"PT-20418",type:"Wallet debited · payment failed",amount:1250,date:"12 Nov 2026",status:"Under review"},
+{id:"PT-20396",type:"Bank debited · wallet not credited",amount:2500,date:"11 Nov 2026",status:"Guidance shared"}
+];
+const seedFeedback=[
+{id:"FB-6201841",type:"Suggestion",rating:5,message:"A clearer expected resolution time would make support cases easier to follow.",date:"12 Nov 2026, 10:15",status:"New"},
+{id:"FB-6201832",type:"Complaint",rating:3,message:"It is difficult to know whether my request is still being reviewed.",date:"11 Nov 2026, 15:40",status:"Reviewing"}
+];
+let reports=JSON.parse(localStorage.getItem("kc_reports")||"null")||seedReports;
+let feedback=JSON.parse(localStorage.getItem("kc_feedback")||"null")||seedFeedback;
 function save(){localStorage.setItem("kc_tickets",JSON.stringify(tickets));localStorage.setItem("kc_reports",JSON.stringify(reports));localStorage.setItem("kc_feedback",JSON.stringify(feedback));}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2400)}
 function navigate(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("hidden",p.id!==page));document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));if(page==="support")renderTickets();if(page==="payments")renderReports();if(page==="feedback")renderFeedback();if(page==="help")renderHelp();window.scrollTo({top:0,behavior:"smooth"})}
@@ -333,6 +350,31 @@ document.getElementById("exportFeedback").addEventListener("click",()=>{
  const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
  const a=document.createElement("a");a.href=url;a.download="khalticare-feedback.csv";a.click();URL.revokeObjectURL(url);
 });
+
+
+const demoTour=[
+ {page:"overview",title:"1. At-a-glance overview",copy:"Start with a single dashboard that shows the user's KYC status, open support cases and payment issues. The sample profile and every record in this walkthrough are fictional."},
+ {page:"kyc",title:"2. Clear KYC progress",copy:"Show each verification stage, the latest update and what the user should expect next. In a real Khalti product, this view would need an approved integration with Khalti's KYC systems."},
+ {page:"support",title:"3. Trackable support cases",copy:"Users can create a demo case, search by case ID or title, filter by status and inspect a sample update timeline. No real support request is sent."},
+ {page:"payments",title:"4. Payment issue clarity",copy:"Demonstrate how a user could record a payment problem and see its status. The sample amounts and references are fictional; no transaction is checked or processed."},
+ {page:"feedback",title:"5. A visible feedback loop",copy:"Review sample user suggestions and complaints, change their demo status and export the sample inbox. These records exist only in this browser."},
+ {page:"help",title:"6. Guided self-service",copy:"Finish with searchable help articles and the issue diagnosis flow, linking people to Khalti's official public help resources."}
+];
+let demoTourIndex=0;
+function startDemoTour(){demoTourIndex=0;showDemoTourStep()}
+function showDemoTourStep(){
+ const step=demoTour[demoTourIndex];
+ navigate(step.page);
+ const progress=((demoTourIndex+1)/demoTour.length)*100;
+ document.getElementById("modalRoot").innerHTML='<div class="modal-back" role="presentation" onclick="if(event.target===this)closeDemoTour()"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="demoTourTitle"><div class="demo-tour-step"><span class="status wait">GUIDED DEMO</span><span class="muted tiny">Step '+(demoTourIndex+1)+' of '+demoTour.length+'</span></div><h2 id="demoTourTitle">'+escapeHtml(step.title)+'</h2><div class="demo-tour-progress"><span style="width:'+progress+'%"></span></div><p class="demo-tour-copy">'+escapeHtml(step.copy)+'</p><div class="modal-actions"><button class="btn ghost" type="button" onclick="closeDemoTour()">Exit walkthrough</button><button class="btn" type="button" onclick="nextDemoTourStep()">'+(demoTourIndex===demoTour.length-1?"Finish demo":"Next section →")+'</button></div></section></div>';
+}
+function nextDemoTourStep(){if(demoTourIndex<demoTour.length-1){demoTourIndex++;showDemoTourStep()}else{closeDemoTour();toast("Guided demo complete")}}
+function closeDemoTour(){closeModal()}
+function resetDemo(){
+ if(!window.confirm("Reset this demo to its original fictional sample data? Your cases, feedback and payment reports created in this browser will be cleared."))return;
+ ["kc_tickets","kc_reports","kc_feedback"].forEach(k=>localStorage.removeItem(k));
+ location.reload();
+}
 
 </script>
 </body></html>
