@@ -78,6 +78,13 @@ body{background:#f4f5f7}
 .help-contact small{display:block;color:var(--muted);font-size:10px}
 @media(max-width:760px){.help-results{grid-template-columns:1fr}.help-filters{gap:6px}.help-filters .btn{padding:7px 9px}}
 
+
+.diagnosis{background:#fff;border:1px solid #eceef1;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 5px 20px rgba(28,30,34,.035)}
+.diagnosis h2{font-size:16px;margin:0 0 5px}.diagnosis p{font-size:11px;color:var(--muted);margin:0}
+.diagnosis-result{margin-top:14px;padding:15px;border-radius:12px;background:#fff7f7;border:1px solid #ffe1e4}
+.diagnosis-result h3{font-size:13px;margin:0 0 7px}.diagnosis-result ol{font-size:11px;line-height:1.8;padding-left:18px;margin:7px 0}
+.diagnosis-result a{color:#c90018;font-size:11px;font-weight:750;text-decoration:none}
+
 </style>
 </head>
 <body>
@@ -130,6 +137,16 @@ body{background:#f4f5f7}
   <button class="btn small" type="button" data-help-filter="All">All topics</button><button class="btn ghost small" type="button" data-help-filter="KYC">KYC</button><button class="btn ghost small" type="button" data-help-filter="Payments">Payments</button><button class="btn ghost small" type="button" data-help-filter="Account">Account</button><button class="btn ghost small" type="button" data-help-filter="Safety">Safety</button>
  </div>
 </div>
+
+<div class="diagnosis">
+ <div class="panel-head"><div><h2>Quick issue diagnosis</h2><p>Choose what happened to see the next practical steps.</p></div><span class="status done">Guided help</span></div>
+ <div class="field"><label for="diagnosisType">What problem are you facing?</label>
+  <select id="diagnosisType"><option value="">Select an issue</option><option value="kyc">KYC is pending or rejected</option><option value="wallet">Wallet debited but payment failed</option><option value="bank">Bank debited but wallet not credited</option><option value="refund">Refund has not arrived</option><option value="security">Lost phone or suspicious account activity</option></select>
+ </div>
+ <div id="diagnosisResult" aria-live="polite"><p>Select an issue above to get a short action plan.</p></div>
+ <div class="notice">This guide cannot inspect your account or transaction. Never enter an OTP, PIN, password, full card number or identity document here.</div>
+</div>
+
 <div id="helpResults" class="help-results"></div>
 <div class="grid" style="margin-top:16px">
  <div class="panel">
@@ -201,6 +218,19 @@ document.getElementById("helpSearch").addEventListener("input",renderHelp);
 document.querySelectorAll("[data-help-filter]").forEach(b=>b.addEventListener("click",()=>{activeHelpFilter=b.dataset.helpFilter;renderHelp()}));
 renderHelp();
 
+
+const diagnosisGuides={
+kyc:{title:"KYC pending or rejected",steps:["Open the official Khalti app and review the KYC status and any reason shown.","Check that your submitted details and document images are complete and readable.","Do not repeatedly submit forms unless Khalti asks you to. Contact official support if the status or rejection reason is unclear."],link:"https://khalti.com/info/support/kyc/",label:"Open official KYC guidance"},
+wallet:{title:"Wallet debited, payment failed",steps:["Check the transaction history in the official Khalti app.","Khalti's published FAQ says a failed debited transaction should be credited back within 24 hours.","If the amount has not returned after 24 hours, contact official support with the transaction reference."],link:"https://khalti.com/info/support/services/",label:"Read transaction FAQ"},
+bank:{title:"Bank debited, wallet not credited",steps:["Refresh your wallet balance and check transaction history.","Khalti's load-fund FAQ advises waiting 30 minutes for the balance to update.","If it is still missing after that, contact official support. Keep your bank reference for the official support team."],link:"https://khalti.com/info/support/load-fund/",label:"Read load-fund guidance"},
+refund:{title:"Refund has not arrived",steps:["Check the original transaction status and your wallet transaction history.","Review official app notifications, SMS and email for an update.","If the expected reversal window has passed or the status is unclear, contact Khalti through its official support channels."],link:"https://khalti.com/info/support/services/",label:"Read payment and refund FAQ"},
+security:{title:"Lost phone or suspicious account activity",steps:["Contact Khalti immediately using a verified official support channel.","Explain that your phone or account may be at risk and follow the support team's instructions.","Never share your password, PIN or OTP with anyone. Do not post account details in this demo."],link:"https://khalti.com/contact/",label:"Open official contact page"}
+};
+document.getElementById("diagnosisType").addEventListener("change",e=>{
+ const guide=diagnosisGuides[e.target.value],box=document.getElementById("diagnosisResult");
+ if(!guide){box.innerHTML="<p>Select an issue above to get a short action plan.</p>";return}
+ box.innerHTML='<div class="diagnosis-result"><h3>'+escapeHtml(guide.title)+'</h3><ol>'+guide.steps.map(s=>'<li>'+escapeHtml(s)+'</li>').join("")+'</ol><a href="'+guide.link+'" target="_blank" rel="noopener">'+escapeHtml(guide.label)+' ↗</a></div>';
+});
 
 document.getElementById("feedbackForm").addEventListener("submit",e=>{
  e.preventDefault();
