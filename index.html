@@ -65,7 +65,7 @@ body{background:#f4f5f7}
 <div class="shell">
 <header class="top"><div class="brand"><div class="brand-copy"><div class="brand-word">khalti<span>Care</span></div><small>Clarity for every step</small></div></div><span class="demo-pill">INDEPENDENT DEMO</span></header>
 <section class="hero"><div class="hero-copy"><div class="eyebrow">A clearer support experience</div><h1>Your support, made clearer.</h1><p>Track your verification, follow support cases, and understand what happens next — all in one place.</p></div><div class="hero-stat"><b>2</b><span>sample requests in progress</span></div></section>
-<nav class="nav" aria-label="Main navigation"><button class="active" data-page="overview">Overview</button><button data-page="kyc">KYC tracker</button><button data-page="support">Support cases</button><button data-page="payments">Payment issues</button></nav>
+<nav class="nav" aria-label="Main navigation"><button class="active" data-page="overview">Overview</button><button data-page="kyc">KYC tracker</button><button data-page="support">Support cases</button><button data-page="payments">Payment issues</button><button data-page="feedback">Feedback</button></nav>
 <main>
 <section id="overview" class="page">
 <div class="stats"><div class="stat-card"><span>VERIFICATION</span><b>In review</b><em>Last updated today</em></div><div class="stat-card"><span>OPEN SUPPORT CASES</span><b id="openCount">1</b><em>Track every update</em></div><div class="stat-card"><span>PAYMENT ISSUES</span><b id="paymentCount">1</b><em>Demo records only</em></div></div>
@@ -80,6 +80,28 @@ body{background:#f4f5f7}
 <div class="step complete"><div class="rail"><div class="dot">✓</div><div class="stem"></div></div><div><h3>Submitted</h3><p>We received your request and created a reference ID.</p></div></div><div class="step complete"><div class="rail"><div class="dot">✓</div><div class="stem"></div></div><div><h3>Initial checks completed</h3><p>Required fields passed the sample completeness check.</p></div></div><div class="step current"><div class="rail"><div class="dot">3</div><div class="stem"></div></div><div><h3>Under review</h3><p>Review is in progress. The sample user does not need to resubmit anything.</p></div></div><div class="step"><div class="rail"><div class="dot">4</div></div><div><h3>Decision</h3><p>Approved or action required — with a clear reason and instructions.</p></div></div></div><div class="info-box"><b>Suggested product improvement</b><br>Show one consistent processing-time expectation, a visible last-updated timestamp, and a plain-language reason whenever action is required.</div><p class="muted tiny" style="margin-top:16px">This is a fictional status flow for demonstration. It cannot verify identity or retrieve actual Khalti KYC information.</p></div></section>
 <section id="support" class="page hidden"><div class="panel"><div class="panel-head"><div><h2>Support cases</h2><div class="muted tiny">A reference number for every issue, with visible progress</div></div><button class="btn" onclick="openNewCase()">＋ New case</button></div><div id="ticketList"></div><div class="notice">A concept for case ownership and status transparency — not a real support channel. Do not submit private account information.</div></div></section>
 <section id="payments" class="page hidden"><div class="grid"><div class="panel"><div class="panel-head"><div><h2>Payment issue tracker</h2><div class="muted tiny">Example failed payment · PT-71042</div></div><span class="status issue">Refund pending</span></div><div class="stats"><div class="stat-card"><span>REFERENCE</span><b style="font-size:17px">PT-71042</b></div><div class="stat-card"><span>AMOUNT</span><b style="font-size:17px">Rs. 1,250</b></div><div class="stat-card"><span>REPORTED</span><b style="font-size:17px">12 Nov</b></div></div><div class="timeline"><div class="step complete"><div class="rail"><div class="dot">✓</div><div class="stem"></div></div><div><h3>Payment initiated</h3><p>12 Nov 2026 · 2:14 PM</p></div></div><div class="step complete"><div class="rail"><div class="dot">✓</div><div class="stem"></div></div><div><h3>Payment failed</h3><p>12 Nov 2026 · 2:14 PM · Sample status</p></div></div><div class="step current"><div class="rail"><div class="dot">3</div><div class="stem"></div></div><div><h3>Refund processing</h3><p>We are checking the payment route. The demo does not move real funds.</p></div></div><div class="step"><div class="rail"><div class="dot">4</div></div><div><h3>Refund completed</h3><p>A confirmation and receipt would appear here.</p></div></div></div><div class="info-box"><b>What users need to know</b><br>Whether the amount was captured, who owns the next step, what the expected update window is, and how to escalate if it passes.</div></div><aside class="panel"><h2>Report a payment issue</h2><p class="muted tiny">Create a local demo record — no payment details are sent anywhere.</p><form id="paymentForm"><div class="field"><label for="payType">Issue type</label><select id="payType"><option>Debited but service failed</option><option>Refund not received</option><option>Duplicate payment</option><option>Payment status unclear</option></select></div><div class="field"><label for="payAmount">Sample amount (Rs.)</label><input id="payAmount" type="number" min="1" max="100000" placeholder="e.g. 1250" required></div><button class="btn" type="submit">Create demo report</button></form><div id="paymentReports"></div></aside></div></section>
+
+<section id="feedback" class="page hidden">
+<div class="grid">
+<div class="panel">
+<div class="panel-head"><div><h2>Share your feedback</h2><div class="muted tiny">Help improve the KhaltiCare concept</div></div><span class="status wait">Feedback</span></div>
+<form id="feedbackForm">
+<div class="field"><label for="feedbackType">What would you like to share?</label><select id="feedbackType"><option>Suggestion</option><option>Complaint</option><option>Bug report</option><option>General feedback</option></select></div>
+<div class="field"><label for="feedbackRating">How was your experience?</label><select id="feedbackRating"><option value="5">★★★★★ — Excellent</option><option value="4">★★★★☆ — Good</option><option value="3" selected>★★★☆☆ — Okay</option><option value="2">★★☆☆☆ — Poor</option><option value="1">★☆☆☆☆ — Very poor</option></select></div>
+<div class="field"><label for="feedbackMessage">Your feedback</label><textarea id="feedbackMessage" maxlength="600" placeholder="Tell us what worked, what did not, or what you would improve..." required></textarea></div>
+<button class="btn" type="submit">Submit feedback</button>
+</form>
+<div class="notice">Please do not include wallet passwords, OTPs, citizenship details, phone numbers, or transaction credentials. This demo stores feedback only in this browser.</div>
+</div>
+<aside class="panel">
+<div class="panel-head"><div><h2>Owner inbox</h2><div class="muted tiny">Feedback saved on this device</div></div><span class="status wait" id="feedbackCount">0 items</span></div>
+<div class="stats"><div class="stat-card"><span>TOTAL</span><b id="fbTotal">0</b></div><div class="stat-card"><span>NEW</span><b id="fbNew">0</b></div><div class="stat-card"><span>RESOLVED</span><b id="fbResolved">0</b></div></div>
+<div class="row" style="margin-bottom:12px"><select id="feedbackFilter" aria-label="Filter feedback" style="flex:1;min-width:120px;border:1px solid var(--line);border-radius:9px;padding:9px;font-size:11px"><option value="All">All feedback</option><option>New</option><option>Reviewing</option><option>Resolved</option></select><button class="btn ghost small" id="exportFeedback" type="button">Export CSV</button></div>
+<div id="feedbackList"><div class="empty">No feedback submitted yet.</div></div>
+</aside>
+</div>
+<div class="notice">Prototype limitation: this inbox is not a secure multi-user admin system. Feedback from other people's devices will not appear here. A shared private inbox requires a backend database and owner authentication.</div>
+</section>
 </main>
 <footer class="foot"><strong>KhaltiCare</strong> is an independent UX concept prototype. Not affiliated with, endorsed by, or connected to Khalti or IME Pay. All names, IDs, amounts, and statuses shown are fictional.</footer>
 </div>
@@ -91,9 +113,10 @@ const seedTickets=[
 ];
 let tickets=JSON.parse(localStorage.getItem("kc_tickets")||"null")||seedTickets;
 let reports=JSON.parse(localStorage.getItem("kc_reports")||"[]");
-function save(){localStorage.setItem("kc_tickets",JSON.stringify(tickets));localStorage.setItem("kc_reports",JSON.stringify(reports));}
+let feedback=JSON.parse(localStorage.getItem("kc_feedback")||"[]");
+function save(){localStorage.setItem("kc_tickets",JSON.stringify(tickets));localStorage.setItem("kc_reports",JSON.stringify(reports));localStorage.setItem("kc_feedback",JSON.stringify(feedback));}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2400)}
-function navigate(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("hidden",p.id!==page));document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));if(page==="support")renderTickets();if(page==="payments")renderReports();window.scrollTo({top:0,behavior:"smooth"})}
+function navigate(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("hidden",p.id!==page));document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));if(page==="support")renderTickets();if(page==="payments")renderReports();if(page==="feedback")renderFeedback();window.scrollTo({top:0,behavior:"smooth"})}
 document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.page)));
 function renderTickets(){const list=document.getElementById("ticketList");document.getElementById("openCount").textContent=tickets.filter(t=>t.status!=="Resolved").length;if(!tickets.length){list.innerHTML='<div class="empty">No cases yet. Create a case to see how tracking works.</div>';return}list.innerHTML=tickets.map(t=>'<article class="ticket"><div class="ticket-top"><h3>'+escapeHtml(t.title)+'</h3><span class="status '+(t.status==="Resolved"?"done":t.status==="In progress"?"wait":"")+'">'+escapeHtml(t.status)+'</span></div><p>'+escapeHtml(t.category)+' · '+escapeHtml(t.date)+' · '+escapeHtml(t.id)+'</p><div class="ticket-foot"><span>'+escapeHtml(t.note)+'</span><button class="btn secondary small" onclick="showCase(\''+t.id+'\')">View updates</button></div></article>').join("")}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -102,6 +125,34 @@ function closeModal(){document.getElementById("modalRoot").innerHTML=""}
 function showCase(id){const t=tickets.find(x=>x.id===id);if(!t)return;document.getElementById("modalRoot").innerHTML='<div class="modal-back" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="panel-head"><div><h2>'+escapeHtml(t.id)+'</h2><p>'+escapeHtml(t.title)+'</p></div><span class="status '+(t.status==="Resolved"?"done":"wait")+'">'+escapeHtml(t.status)+'</span></div><div class="timeline">'+t.updates.map((u,i)=>'<div class="step '+(i===t.updates.length-1?"current":"complete")+'"><div class="rail"><div class="dot">'+(i===t.updates.length-1?i+1:"✓")+'</div><div class="stem"></div></div><div><h3>'+escapeHtml(u)+'</h3><p>'+(i===t.updates.length-1?"Latest sample update":"Previous update")+'</p></div></div>').join("")+'</div><div class="modal-actions"><button class="btn" onclick="closeModal()">Close</button></div></div></div>'}
 document.getElementById("paymentForm").addEventListener("submit",e=>{e.preventDefault();const amount=Number(document.getElementById("payAmount").value);if(!amount||amount<1)return;reports.unshift({id:"PT-"+Math.floor(10000+Math.random()*89999),type:document.getElementById("payType").value,amount,date:new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"short"}),status:"Submitted"});save();renderReports();e.target.reset();toast("Demo payment report created")});
 function renderReports(){document.getElementById("paymentCount").textContent=reports.length+1;const box=document.getElementById("paymentReports");box.innerHTML=reports.map(r=>'<div class="ticket"><div class="ticket-top"><h3>'+escapeHtml(r.type)+'</h3><span class="status wait">'+escapeHtml(r.status)+'</span></div><p>'+escapeHtml(r.id)+' · Rs. '+Number(r.amount).toLocaleString("en-IN")+' · '+escapeHtml(r.date)+'</p></div>').join("")}
-renderTickets();renderReports();
+renderTickets();renderReports();renderFeedback();
+
+document.getElementById("feedbackForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const message=document.getElementById("feedbackMessage").value.trim();
+ if(!message){toast("Please write your feedback");return}
+ feedback.unshift({id:"FB-"+Date.now().toString().slice(-7),type:document.getElementById("feedbackType").value,rating:Number(document.getElementById("feedbackRating").value),message,date:new Date().toLocaleString("en-GB"),status:"New"});
+ save();e.target.reset();renderFeedback();toast("Thank you — feedback saved on this device");
+});
+function renderFeedback(){
+ const total=feedback.length, fresh=feedback.filter(x=>x.status==="New").length, resolved=feedback.filter(x=>x.status==="Resolved").length;
+ document.getElementById("fbTotal").textContent=total;document.getElementById("fbNew").textContent=fresh;document.getElementById("fbResolved").textContent=resolved;
+ document.getElementById("feedbackCount").textContent=total+" items";
+ const filter=document.getElementById("feedbackFilter").value;
+ const items=feedback.filter(x=>filter==="All"||x.status===filter);
+ const box=document.getElementById("feedbackList");
+ if(!items.length){box.innerHTML='<div class="empty">No feedback in this view yet.</div>';return}
+ box.innerHTML=items.map(x=>'<article class="ticket"><div class="ticket-top"><h3>'+escapeHtml(x.type)+' · '+escapeHtml(x.id)+'</h3><span class="status '+(x.status==="Resolved"?"done":x.status==="Reviewing"?"wait":"issue")+'">'+escapeHtml(x.status)+'</span></div><p>'+escapeHtml(x.date)+' · '+('★'.repeat(x.rating))+('☆'.repeat(5-x.rating))+'</p><p style="white-space:pre-wrap;color:var(--ink)">'+escapeHtml(x.message)+'</p><div class="row"><label class="tiny muted" for="fb-status-'+escapeHtml(x.id)+'">Update status</label><select id="fb-status-'+escapeHtml(x.id)+'" data-feedback-id="'+escapeHtml(x.id)+'" class="fb-status" style="border:1px solid var(--line);border-radius:8px;padding:7px;font-size:11px"><option '+(x.status==="New"?"selected":"")+' >New</option><option '+(x.status==="Reviewing"?"selected":"")+'>Reviewing</option><option '+(x.status==="Resolved"?"selected":"")+'>Resolved</option></select></div></article>').join("");
+ box.querySelectorAll(".fb-status").forEach(s=>s.addEventListener("change",()=>{const item=feedback.find(x=>x.id===s.dataset.feedbackId);if(item){item.status=s.value;save();renderFeedback();toast("Feedback status updated")}}));
+}
+document.getElementById("feedbackFilter").addEventListener("change",renderFeedback);
+document.getElementById("exportFeedback").addEventListener("click",()=>{
+ if(!feedback.length){toast("No feedback to export");return}
+ const rows=[["ID","Type","Rating","Message","Date","Status"],...feedback.map(x=>[x.id,x.type,x.rating,x.message,x.date,x.status])];
+ const csv=rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\\r\\n");
+ const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+ const a=document.createElement("a");a.href=url;a.download="khalticare-feedback.csv";a.click();URL.revokeObjectURL(url);
+});
+
 </script>
 </body></html>
