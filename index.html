@@ -77,7 +77,8 @@ body{background:#f4f5f7}
 .help-contact b{display:block;font-size:12px}
 .help-contact small{display:block;color:var(--muted);font-size:10px}
 @media(max-width:760px){.help-results{grid-template-columns:1fr}.help-filters{gap:6px}.help-filters .btn{padding:7px 9px}}
-\n</style>
+
+</style>
 </head>
 <body>
 <div class="shell">
@@ -149,7 +150,8 @@ body{background:#f4f5f7}
  </div>
 </div>
 <div class="notice">KhaltiCare is an independent guide, not Khalti support. Advice here is general and may change. Never share your password, OTP, PIN, full card details or identity documents through this demo.</div>
-</section>\n</main>
+</section>
+</main>
 <footer class="foot"><strong>KhaltiCare</strong> is an independent UX concept prototype. Not affiliated with, endorsed by, or connected to Khalti or IME Pay. All names, IDs, amounts, and statuses shown are fictional.</footer>
 </div>
 <div id="modalRoot"></div><div id="toast" class="toast" role="status"></div>
@@ -172,7 +174,8 @@ function closeModal(){document.getElementById("modalRoot").innerHTML=""}
 function showCase(id){const t=tickets.find(x=>x.id===id);if(!t)return;document.getElementById("modalRoot").innerHTML='<div class="modal-back" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="panel-head"><div><h2>'+escapeHtml(t.id)+'</h2><p>'+escapeHtml(t.title)+'</p></div><span class="status '+(t.status==="Resolved"?"done":"wait")+'">'+escapeHtml(t.status)+'</span></div><div class="timeline">'+t.updates.map((u,i)=>'<div class="step '+(i===t.updates.length-1?"current":"complete")+'"><div class="rail"><div class="dot">'+(i===t.updates.length-1?i+1:"✓")+'</div><div class="stem"></div></div><div><h3>'+escapeHtml(u)+'</h3><p>'+(i===t.updates.length-1?"Latest sample update":"Previous update")+'</p></div></div>').join("")+'</div><div class="modal-actions"><button class="btn" onclick="closeModal()">Close</button></div></div></div>'}
 document.getElementById("paymentForm").addEventListener("submit",e=>{e.preventDefault();const amount=Number(document.getElementById("payAmount").value);if(!amount||amount<1)return;reports.unshift({id:"PT-"+Math.floor(10000+Math.random()*89999),type:document.getElementById("payType").value,amount,date:new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"short"}),status:"Submitted"});save();renderReports();e.target.reset();toast("Demo payment report created")});
 function renderReports(){document.getElementById("paymentCount").textContent=reports.length+1;const box=document.getElementById("paymentReports");box.innerHTML=reports.map(r=>'<div class="ticket"><div class="ticket-top"><h3>'+escapeHtml(r.type)+'</h3><span class="status wait">'+escapeHtml(r.status)+'</span></div><p>'+escapeHtml(r.id)+' · Rs. '+Number(r.amount).toLocaleString("en-IN")+' · '+escapeHtml(r.date)+'</p></div>').join("")}
-renderTickets();renderReports();renderFeedback();\n
+renderTickets();renderReports();renderFeedback();
+
 const helpArticles=[
 {category:"KYC",title:"What documents are needed for KYC?",summary:"Prepare a recent passport-size photo and an accepted identity document.",answer:"Khalti's KYC guidance lists citizenship certificate, driving licence or passport (front and back where applicable), plus a recent photo. Complete the form in the official Khalti app or website. Do not upload documents to KhaltiCare.",link:"https://khalti.com/info/support/kyc/"},
 {category:"KYC",title:"My KYC is still under review. What should I do?",summary:"Check the official KYC page and contact support if the status remains unclear.",answer:"First, confirm that your submitted details and document images are complete in the official Khalti app. Avoid submitting repeated forms unless Khalti asks you to. For a delayed or rejected application, contact Khalti using its official support channels and provide your reference details only through its verified channel.",link:"https://khalti.com/info/support/kyc/"},
@@ -195,7 +198,8 @@ function renderHelp(){
  document.querySelectorAll("[data-help-filter]").forEach(b=>{const on=b.dataset.helpFilter===activeHelpFilter;b.classList.toggle("active",on);b.classList.toggle("ghost",!on)});
 }
 document.getElementById("helpSearch").addEventListener("input",renderHelp);
-document.querySelectorAll("[data-help-filter]").forEach(b=>b.addEventListener("click",()=>{activeHelpFilter=b.dataset.helpFilter;renderHelp()}));\nrenderHelp();
+document.querySelectorAll("[data-help-filter]").forEach(b=>b.addEventListener("click",()=>{activeHelpFilter=b.dataset.helpFilter;renderHelp()}));
+renderHelp();
 
 
 document.getElementById("feedbackForm").addEventListener("submit",e=>{
